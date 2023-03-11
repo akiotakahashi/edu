@@ -3,6 +3,9 @@
     <head>
         <title>ランダム九九</title>
         <meta charset="utf-8">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
     </head>
     <script lang="javascript">
         var questions = [];
@@ -184,9 +187,10 @@
             font-size: 1200%;
             text-align: center;
             font-weight: bold;
+            margin: 32px 0;
         }
         .next_question {
-            font-size: 400%;
+            font-size: 300%;
             text-align: left;
             font-weight: bold;
             color: lightgray;
@@ -228,13 +232,12 @@
         }
         h1 {
             color: #444;
-            padding: 0.2em;
             text-align: center;
             font-size: x-large;
             font-weight: normal;
             border: solid #DDD 2px;
             background-color: #F0F0F0;
-            margin-bottom: 0.2em;
+            margin-bottom: 1.4em;
         }
         h1.fullscreen {
             margin-top: 72px;
@@ -244,16 +247,17 @@
             height: 1.3rem;
         }
         body {
+            font-family: 'Kosugi Maru', sans-serif;
             overflow: hidden;
         }
     </style>
     <body onload="init()" onmousedown="onMouseDown(event)">
         <h1 id="h1" onmousedown="event.stopPropagation()">
-            <span>ランダム九九</span>
-            <button style="font-size: large; float: left;" onclick="startSequence(); event.stopPropagation();">
+            <span style="margin: 0.4em; display: inline-block;">ランダム九九</span>
+            <button style="font-size: large; float: left; margin: 0.25em;" onclick="startSequence(); event.stopPropagation();">
                 最初から
             </button>
-            <div style="font-size: large; float: right;">
+            <div style="font-size: large; float: right; margin: 0.4em;">
                 <input id="fullscreen" type="checkbox" style="vertical-align: middle;" onchange="onFullScreenChanged()"><span style="vertical-align: middle;">全画面</span>
             </div>
         </h1>
