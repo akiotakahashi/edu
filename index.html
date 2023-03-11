@@ -146,6 +146,7 @@
 
         function onFullScreenChanged() {
             let fs = document.getElementById("fullscreen");
+            let h1 = document.getElementById("h1");
             if (fs.checked) {
                 let target = document.documentElement;
                 if(document.fullscreenEnabled) {
@@ -156,14 +157,23 @@
                     alert('未対応のブラウザです');
                     return false;
                 }
+                h1.classList.add("fullscreen");
             }
             else {
                 if(document.exitFullscreen) {
                     document.exitFullscreen();
                 } else if(document.webkitCancelFullScreen) {
                     document.webkitCancelFullScreen();
+                } else {
+                    return false;
                 }
+                h1.classList.remove("fullscreen");
             }
+        }
+
+        function onMouseDown(e) {
+            if (e.button != 0) { return; }
+            nextSequence();
         }
     </script>
     <style>
@@ -224,8 +234,10 @@
             font-weight: normal;
             border: solid #DDD 2px;
             background-color: #F0F0F0;
-            margin-top: 6px;
             margin-bottom: 0.2em;
+        }
+        h1.fullscreen {
+            margin-top: 72px;
         }
         #fullscreen {
             width: 1.3rem;
@@ -235,8 +247,8 @@
             overflow: hidden;
         }
     </style>
-    <body onload="init()" onmousedown="nextSequence()">
-        <h1>
+    <body onload="init()" onmousedown="onMouseDown(event)">
+        <h1 id="h1" onmousedown="event.stopPropagation()">
             <span>ランダム九九</span>
             <button style="font-size: large; float: left;" onclick="startSequence(); event.stopPropagation();">
                 最初から
@@ -255,7 +267,7 @@
                 </span>
                 <span id="num"></span>
             </div>
-            <div style="padding: 4vw 4vw; padding-top: 0; user-select: none;">
+            <div style="padding: 4vw 4vw 2vw 4vw; padding-top: 0; user-select: none;">
                 <div id="n" class="next_question">
                     次:
                     <span id="n_op1" style="font-size: 120%;">0
@@ -278,7 +290,7 @@
                 </div>
             </div>
         </div>
-        <div style="text-align: right; color: lightgray; font-size: small;">
+        <div style="text-align: right; color: lightgray; font-size: x-small;">
             Copyright(C) 2023 Akio Takakashi. All rights reserved.
         </div>
     </body>
