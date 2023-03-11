@@ -149,7 +149,7 @@
 
         function onFullScreenChanged() {
             let fs = document.getElementById("fullscreen");
-            let h1 = document.getElementById("h1");
+            let se = document.getElementById("safari_escape");
             if (fs.checked) {
                 let target = document.documentElement;
                 if(document.fullscreenEnabled) {
@@ -160,7 +160,7 @@
                     alert('未対応のブラウザです');
                     return false;
                 }
-                h1.classList.add("fullscreen");
+                se.hidden = false;
             }
             else {
                 if(document.exitFullscreen) {
@@ -170,7 +170,7 @@
                 } else {
                     return false;
                 }
-                h1.classList.remove("fullscreen");
+                se.hidden = true;
             }
         }
 
@@ -192,7 +192,6 @@
         .next_question {
             font-size: 300%;
             text-align: left;
-            font-weight: bold;
             color: lightgray;
         }
         .answer {
@@ -239,9 +238,6 @@
             background-color: #F0F0F0;
             margin-bottom: 1.4em;
         }
-        h1.fullscreen {
-            margin-top: 72px;
-        }
         #fullscreen {
             width: 1.3rem;
             height: 1.3rem;
@@ -251,8 +247,17 @@
             overflow: hidden;
             white-space: nowrap;
         }
+        #safari_escape {
+            height: 96px;
+            border: dashed lightgray 1px;
+            color: lightgray;
+            text-align: center;
+        }
     </style>
     <body onload="init()" onmousedown="onMouseDown(event)">
+        <div id="safari_escape" hidden>
+            <span style="line-height: 96px; vertical-align: middle; font-size: larger;">Safari 用の空白</span>
+        </div>
         <h1 id="h1" onmousedown="event.stopPropagation()">
             <span style="margin: 0.4em; display: inline-block;">ランダム九九</span>
             <button style="font-size: large; float: left; margin: 0.25em;" onclick="startSequence(); event.stopPropagation();">
@@ -272,7 +277,7 @@
                 </span>
                 <span id="num"></span>
             </div>
-            <div style="padding: 4vw 4vw 2vw 4vw; padding-top: 0; user-select: none;">
+            <div style="padding: 4vw 4vw 3vw 4vw; padding-top: 0; user-select: none;">
                 <div id="n" class="next_question">
                     次:
                     <span id="n_op1" style="font-size: 120%;">0
