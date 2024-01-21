@@ -107,9 +107,15 @@ body {
 }
 
 #safari_escape {
-    height: 76px;
+    height: 64px;
     border: dashed lightgray 1px;
     border-radius: 16px;
     color: lightgray;
     text-align: center;
+}
+
+#safari_escape > span {
+    line-height: 64px;
+    vertical-align: middle;
+    font-size: larger;
 }
