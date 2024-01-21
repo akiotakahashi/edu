@@ -5,6 +5,14 @@ var n_solved = -1;
 var n_timer = null;
 var start_time = null;
 
+function randomInt(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+function randomChoice(candidates) {
+    return candidates[randomInt(0, candidates.length)];
+}
+
 function fisherYatesShuffle(arr) {
     for(let i = arr.length - 1 ; i > 0; i--){
         let j = Math.floor(Math.random() * (i + 1));
@@ -22,15 +30,34 @@ function factorize(n) {
     return factors;
 }
 
-function primeDecomposition(n) {
+function primeDecomposition(n, limit = 10) {
     let factors = [];
-    for (let i = 2; i <= n; i++) {
+    for (let i = 2; i <= Math.min(n, limit); i++) {
         while (n % i == 0) {
             factors.push(i)
             n = n / i;
         }
     }
+    if (n > 1) {
+        factors.push(n);
+    }
     return factors;
+}
+
+function decomposition(n) {
+    let primes = [10,7,5,4,3,2];
+    let factors = [];
+    for (let ix in primes) {
+        let p = primes[ix];
+        while (n % p == 0) {
+            factors.push(p);
+            n = n / p;
+        }
+    }
+    if (n > 1) {
+        factors.push(n);
+    }
+    return factors.sort();
 }
 
 function setStatus(text) {
@@ -92,6 +119,32 @@ function updateQuestion(prefix, ix, predicate) {
     div.classList.remove("invisible");
 }
 
+function generateHint(a, b) {
+    if (false) {
+    }
+    // 25x4の組み合わせ
+    else if (a % 25 == 0 && b % 4 == 0) { return `(${a}x4)x${b/4}`; }
+    else if (a % 4 == 0 && b % 25 == 0) { return `${a/4}x(4x${b})`; }
+    // 15x4の組み合わせ
+    else if (a % 15 == 0 && b % 4 == 0) { return `${a/15}x(15x4)x${b/4}`; }
+    else if (a % 4 == 0 && b % 15 == 0) { return `${a/4}x(4x15)x${b/15}`; }
+    // 15x2の組み合わせ
+    else if (a % 15 == 0 && b % 2 == 0) { return `(${a}x2)x${b/2}`; }
+    else if (a % 2 == 0 && b % 15 == 0) { return `${a/2}x(2x${b})`; }
+    // 5x2の組み合わせ
+    else if (a % 5 == 0 && b % 2 == 0) { return `(${a}x2)x${b/2}`; }
+    else if (a % 2 == 0 && b % 5 == 0) { return `${a/2}x(2x${b})`; }
+    // Nx5の組み合わせ
+    else if (a % 5 == 0) { return `(${a/5}x${b})x10/2`; }
+    else if (b % 5 == 0) { return `(${a}x${b/5})x10/2`; }
+    // 素因数分解
+    else {
+        let A = primeDecomposition(a).join("x");
+        let B = primeDecomposition(b).join("x");
+        return A + " x " + B;
+    }
+}
+
 function updateQuestions() {
     if (n_solved == n_asked) {
         updateQuestion("c", 999);
@@ -109,14 +162,14 @@ function updateQuestions() {
     }
     else {
         let q = questions[n_asked - 1];
-        if (q[2] !== undefined) {
-            hint.innerHTML = q[2].replace("x", "<small>×</small>");
+        var h_txt = q[2];
+        if (h_txt === undefined) {
+            h_txt = generateHint(q[0], q[1]);
         }
-        else {
-            let a = primeDecomposition(q[0]).join("<small>×</small>");
-            let b = primeDecomposition(q[1]).join("<small>×</small>");
-            hint.innerHTML = a + " <small>×</small> " + b;
-        }
+        hint.innerHTML = h_txt
+            .replaceAll(/^1x|x1$|\/1$|x1x/g, "")
+            .replaceAll("/", "<small>÷</small>")
+            .replaceAll("x", "<small>×</small>");
         hint.classList.remove("invisible");
     }
     //
@@ -138,7 +191,9 @@ function updateQuestions() {
 }
 
 function startSequence(orderedQuestions) {
-    questions = orderedQuestions;
+    if (orderedQuestions !== undefined) {
+        questions = orderedQuestions;
+    }
     fisherYatesShuffle(questions);
     n_asked = 0;
     n_solved = -1;

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <title>練習３（便利なもの） - かけ算ダッシュ</title>
+        <title>練習１ - かけ算ダッシュ</title>
         <meta charset="utf-8">
         <script type="text/javascript" src="calc.js"></script>
         <script type="text/javascript" src="util.js"></script>
@@ -13,30 +13,21 @@
     <script lang="javascript">
         function generateQuestions() {
             return [
-                [11, 12],
-                [11, 15],
-                [12, 11],
-                [12, 15],
-                [12, 16],
-                [12, 18],
-                [15, 11],
-                [15, 12],
-                [15, 14],
-                [15, 16],
-                [16, 12],
-                [16, 15],
-                [16, 18],
-                [18, 12],
-                [18, 16],
+                // 練習２
+                [256, 5],
+                [742, 5],
+                [44, 25],
             ];
         }
     </script>
+    <style>
+    </style>
     <body onload="init(generateQuestions())" onmousedown="onMouseDown(event)">
         <div id="safari_escape" hidden>
             <span style="line-height: 76px; vertical-align: middle; font-size: larger;">Safari 用の空白</span>
         </div>
         <h1 id="h1" onmousedown="event.stopPropagation()">
-            <span style="margin: 0.4em; display: inline-block;">練習３（便利なもの） - かけ算ダッシュ</span>
+            <span style="margin: 0.4em; display: inline-block;">練習１ - かけ算ダッシュ</span>
             <button style="font-size: large; float: left; margin: 0.25em;" onclick="startSequence(); event.stopPropagation();">
                 最初から
             </button>
