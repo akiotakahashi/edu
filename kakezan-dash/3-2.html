@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ja">
     <head>
-        <title>練習３ - かけ算ダッシュ</title>
+        <title>練習３（2桁×1桁） - かけ算ダッシュ</title>
         <meta charset="utf-8">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -106,37 +106,9 @@
         }
 
         function startSequence() {
-            questions = [
-                // 平方数
-                [11, 11],
-                [12, 12],
-                [13, 13],
-                [14, 14],
-                [15, 15],
-                [16, 16],
-                [17, 17],
-                [18, 18],
-                [19, 19],
-                [20, 20],
-                // 覚えておくと便利なもの
-                [11, 12],
-                [11, 15],
-                [12, 11],
-                [12, 15],
-                [12, 16],
-                [12, 18],
-                [15, 11],
-                [15, 12],
-                [15, 14],
-                [15, 16],
-                [16, 12],
-                [16, 15],
-                [16, 18],
-                [18, 12],
-                [18, 16],
-            ];
-            for (let ia = 2; ia <= 9; ia++) {
-                for (let ib = 12; ib <= 18; ib++) {
+            questions = [];
+            for (let ia = 12; ia <= 18; ia++) {
+                for (let ib = 2; ib <= 9; ib++) {
                     questions.push([ia, ib]);
                 }
             }
@@ -292,7 +264,7 @@
             <span style="line-height: 76px; vertical-align: middle; font-size: larger;">Safari 用の空白</span>
         </div>
         <h1 id="h1" onmousedown="event.stopPropagation()">
-            <span style="margin: 0.4em; display: inline-block;">練習３ - かけ算ダッシュ</span>
+            <span style="margin: 0.4em; display: inline-block;">練習３（2桁×1桁） - かけ算ダッシュ</span>
             <button style="font-size: large; float: left; margin: 0.25em;" onclick="startSequence(); event.stopPropagation();">
                 最初から
             </button>
