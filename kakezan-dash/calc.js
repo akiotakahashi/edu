@@ -12,11 +12,22 @@ function fisherYatesShuffle(arr) {
     }
 }
 
-function factorize(number) {
+function factorize(n) {
     let factors = [];
-    for (let i = 1; i <= number; i++) {
-        if (number % i === 0) {
+    for (let i = 1; i <= n; i++) {
+        if (n % i === 0) {
             factors.push(i);
+        }
+    }
+    return factors;
+}
+
+function primeDecomposition(n) {
+    let factors = [];
+    for (let i = 2; i <= n; i++) {
+        while (n % i == 0) {
+            factors.push(i)
+            n = n / i;
         }
     }
     return factors;
@@ -64,7 +75,7 @@ function startStopwatch() {
     onTimer();
 }
 
-function updateQuestion(prefix, ix) {
+function updateQuestion(prefix, ix, predicate) {
     let div = document.getElementById(prefix);
     if (ix < 0 || ix >= questions.length) {
         div.classList.add("invisible");
@@ -73,8 +84,11 @@ function updateQuestion(prefix, ix) {
     let op1 = document.getElementById(prefix + "_op1");
     let op2 = document.getElementById(prefix + "_op2");
     let q = questions[ix];
-    op1.innerText = q[0];
-    op2.innerText = q[1];
+    if (predicate === undefined) {
+        predicate = function (x) { return x; }
+    }
+    op1.innerText = predicate(q[0]);
+    op2.innerText = predicate(q[1]);
     div.classList.remove("invisible");
 }
 
@@ -88,6 +102,24 @@ function updateQuestions() {
         updateQuestion("n", n_asked);
     }
     updateQuestion("a", n_solved - 1);
+    //
+    let hint = document.getElementById('h');
+    if (n_asked < 1 || n_asked > questions.length || n_solved >= questions.length) {
+        hint.classList.add("invisible");
+    }
+    else {
+        let q = questions[n_asked - 1];
+        if (q[2] !== undefined) {
+            hint.innerHTML = q[2].replace("x", "<small>×</small>");
+        }
+        else {
+            let a = primeDecomposition(q[0]).join("<small>×</small>");
+            let b = primeDecomposition(q[1]).join("<small>×</small>");
+            hint.innerHTML = a + " <small>×</small> " + b;
+        }
+        hint.classList.remove("invisible");
+    }
+    //
     let num = document.getElementById('num');
     if (n_asked <= 0) {
         num.innerText = "";

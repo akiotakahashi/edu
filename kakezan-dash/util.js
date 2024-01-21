@@ -29,3 +29,10 @@ function onMouseDown(e) {
     if (e.button != 0) { return; }
     nextSequence();
 }
+
+function init(questions) {
+    updateQuestions();
+    hideStopwatch();
+    setStatus("");
+    startSequence(questions);
+}
