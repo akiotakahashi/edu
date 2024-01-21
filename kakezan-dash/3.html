@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>練習３ - かけ算ダッシュ</title>
+        <meta charset="utf-8">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
+    </head>
+    <script lang="javascript">
+        var questions = [];
+        var n_asked = 0;
+        var n_solved = -1;
+
+        var n_timer = null;
+        var start_time = null;
+        
+        function fisherYatesShuffle(arr) {
+            for(let i = arr.length - 1 ; i > 0; i--){
+                let j = Math.floor(Math.random() * (i + 1));
+                [arr[i], arr[j]] = [arr[j], arr[i]];
+            }
+        }
+
+        function setStatus(text) {
+            let status = document.getElementById('status');
+            status.innerText = text;
+        }
+
+        function onTimer() {
+            let now = new Date();
+            let dt = (now.getTime() - start_time.getTime()) / 1000;
+            let min = document.getElementById('minutes');
+            let sec = document.getElementById('seconds');
+            min.innerText = Math.floor(dt / 60);
+            sec.innerText = Math.floor(dt % 60);
+        }
+
+        function hideStopwatch() {
+            let sw = document.getElementById('stopwatch');
+            sw.hidden = true;
+        }
+
+        function stopStopwatch() {
+            if (n_timer === null) {
+                return;
+            }
+            clearInterval(n_timer);
+            n_timer = null;
+            let sw = document.getElementById('stopwatch');
+            sw.classList.remove("running");
+            sw.classList.add("fixed");
+            sw.hidden = false;
+        }
+
+        function startStopwatch() {
+            stopStopwatch();
+            start_time = new Date();
+            n_timer = window.setInterval(onTimer, 1000);
+            let sw = document.getElementById('stopwatch');
+            sw.classList.remove("fixed");
+            sw.classList.add("running");
+            sw.hidden = false;
+            onTimer();
+        }
+
+        function updateQuestion(prefix, ix) {
+            let div = document.getElementById(prefix);
+            if (ix < 0 || ix >= questions.length) {
+                div.classList.add("invisible");
+                return;
+            }
+            let op1 = document.getElementById(prefix + "_op1");
+            let op2 = document.getElementById(prefix + "_op2");
+            let q = questions[ix];
+            op1.innerText = q[0];
+            op2.innerText = q[1];
+            div.classList.remove("invisible");
+        }
+
+        function updateQuestions() {
+            if (n_solved == n_asked) {
+                updateQuestion("c", 999);
+                updateQuestion("n", 999);
+            }
+            else {
+                updateQuestion("c", n_asked - 1);
+                updateQuestion("n", n_asked);
+            }
+            updateQuestion("a", n_solved - 1);
+            let num = document.getElementById('num');
+            if (n_asked <= 0) {
+                num.innerText = "";
+            }
+            else if (n_asked == n_solved) {
+                num.innerText = n_asked + "問完了";
+            }
+            else {
+                num.innerText = n_asked + "問目";
+            }
+            if (n_solved > 0) {
+                let ans = document.getElementById("a_ans");
+                let q = questions[n_solved - 1];
+                ans.innerText = q[0] * q[1];
+            }
+        }
+
+        function startSequence() {
+            questions = [
+                // 平方数
+                [11, 11],
+                [12, 12],
+                [13, 13],
+                [14, 14],
+                [15, 15],
+                [16, 16],
+                [17, 17],
+                [18, 18],
+                [19, 19],
+                [20, 20],
+                // 覚えておくと便利なもの
+                [11, 12],
+                [11, 15],
+                [12, 11],
+                [12, 15],
+                [12, 16],
+                [12, 18],
+                [15, 11],
+                [15, 12],
+                [15, 14],
+                [15, 16],
+                [16, 12],
+                [16, 15],
+                [16, 18],
+                [18, 12],
+                [18, 16],
+            ];
+            for (let ia = 2; ia <= 9; ia++) {
+                for (let ib = 12; ib <= 18; ib++) {
+                    questions.push([ia, ib]);
+                }
+            }
+            fisherYatesShuffle(questions);
+            n_asked = 0;
+            n_solved = -1;
+            updateQuestions();
+            hideStopwatch();
+            setStatus("クリックするとはじまります（全" + questions.length + "問）");
+        }
+
+        function nextSequence() {
+            if (questions.length == 0) {
+                return;
+            }
+            if (n_asked < questions.length) {
+                n_asked++;
+            }
+            if (n_solved < questions.length) {
+                n_solved++;
+            }
+            if (n_asked == 1) {
+                startStopwatch();
+                setStatus("");
+            }
+            if (n_solved == questions.length) {
+                stopStopwatch();
+            }
+            updateQuestions();
+        }
+
+        function init() {
+            updateQuestions();
+            hideStopwatch();
+            setStatus("");
+            startSequence();
+        }
+
+        function onFullScreenChanged() {
+            let fs = document.getElementById("fullscreen");
+            let se = document.getElementById("safari_escape");
+            if (fs.checked) {
+                let target = document.documentElement;
+                if(document.fullscreenEnabled) {
+                    target.requestFullscreen();
+                } else if(document.webkitFullscreenEnabled) {
+                    target.webkitRequestFullscreen();
+                } else {
+                    alert('未対応のブラウザです');
+                    return false;
+                }
+                se.hidden = false;
+            }
+            else {
+                if(document.exitFullscreen) {
+                    document.exitFullscreen();
+                } else if(document.webkitCancelFullScreen) {
+                    document.webkitCancelFullScreen();
+                } else {
+                    return false;
+                }
+                se.hidden = true;
+            }
+        }
+
+        function onMouseDown(e) {
+            if (e.button != 0) { return; }
+            nextSequence();
+        }
+    </script>
+    <style>
+        .invisible {
+            visibility: hidden;
+        }
+        .curr_question {
+            font-size: 1200%;
+            text-align: center;
+            font-weight: bold;
+            margin: 32px 0;
+            color: #282830;
+        }
+        .next_question {
+            font-size: 300%;
+            text-align: left;
+            color: lightgray;
+        }
+        .answer {
+            font-size: 240%;
+            text-align: right;
+            color: lightgray;
+        }
+        #a_ans {
+            display: inline-block;
+            color: gray;
+            font-weight: bold;
+        }
+        #status {
+            font-size: xx-large;
+            float: right;
+        }
+        #stopwatch {
+            float: right;
+            color: #777;
+            font-size: xx-large;
+        }
+        #stopwatch.fixed {
+            color: #333;
+            border-bottom: 2px solid black;
+        }
+        #stopwatch > span {
+            display: inline-block;
+        }
+        #minutes, #seconds {
+            min-width: 1.5em;
+            margin-right: 0.2em;
+            text-align: right;
+            text-decoration: inherit;
+        }
+        #num {
+            font-size: xx-large;
+            margin-right: 1.4em;
+            color: #333;
+            float: right;
+        }
+        h1 {
+            color: #777;
+            text-align: center;
+            font-size: x-large;
+            font-weight: normal;
+            border: solid #DDD 2px;
+            background-color: #F0F0F0;
+            margin-bottom: 1.4em;
+        }
+        #fullscreen {
+            width: 1.3rem;
+            height: 1.3rem;
+        }
+        body {
+            font-family: 'Kosugi Maru', sans-serif;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        #safari_escape {
+            height: 76px;
+            border: dashed lightgray 1px;
+            border-radius: 16px;
+            color: lightgray;
+            text-align: center;
+        }
+    </style>
+    <body onload="init()" onmousedown="onMouseDown(event)">
+        <div id="safari_escape" hidden>
+            <span style="line-height: 76px; vertical-align: middle; font-size: larger;">Safari 用の空白</span>
+        </div>
+        <h1 id="h1" onmousedown="event.stopPropagation()">
+            <span style="margin: 0.4em; display: inline-block;">練習３ - かけ算ダッシュ</span>
+            <button style="font-size: large; float: left; margin: 0.25em;" onclick="startSequence(); event.stopPropagation();">
+                最初から
+            </button>
+            <div style="font-size: large; float: right; margin: 0.4em;">
+                <input id="fullscreen" type="checkbox" style="vertical-align: middle;" onchange="onFullScreenChanged()"><span style="vertical-align: middle;">全画面</span>
+            </div>
+        </h1>
+        <div style="padding: 0.5em 1em; margin-top: 1em;">
+            <div>
+                <span id="stopwatch" style="float: right;">
+                    <span id="minutes">1</span>分<span id="seconds">45</span>秒
+                </span>
+                <span id="status" style="float: right;">
+                    ステータス
+                </span>
+                <span id="num"></span>
+            </div>
+            <div style="padding: 4vw 4vw 3vw 4vw; padding-top: 0; user-select: none;">
+                <div id="n" class="next_question">
+                    次:
+                    <span id="n_op1" style="font-size: 120%;">0
+                    </span><span style="margin: 0.1em;">×</span><span id="n_op2" style="font-size: 120%;">0
+                    </span>
+                </div>
+                <div id="c" class="curr_question">
+                    <span id="c_op1" style="font-size: 120%;"
+                    >0</span><span style="margin: 0 0.2em;"
+                    >×</span><span id="c_op2" style="font-size: 120%;"
+                    >0</span>
+                </div>
+                <div id="a" class="answer">
+                    答:
+                    <span id="a_op1" style="font-size: 120%;"
+                    >0</span
+                    >×<span id="a_op2" style="font-size: 120%;"
+                    >0</span
+                    ><span style="margin: 0 0.12em 0 0.3em;"
+                    >=</span><span id="a_ans" style="font-size: 150%; min-width: 1.2em;"
+                    >0</span>
+                </div>
+            </div>
+        </div>
+        <div style="text-align: right; color: lightgray; font-size: x-small;">
+            Copyright(C) 2023 Akio Takakashi. All rights reserved.
+        </div>
+    </body>
+</html>
