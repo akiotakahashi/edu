@@ -156,23 +156,6 @@ function updateQuestions() {
     }
     updateQuestion("a", n_solved - 1);
     //
-    let hint = document.getElementById('h');
-    if (n_asked < 1 || n_asked > questions.length || n_solved >= questions.length) {
-        hint.classList.add("invisible");
-    }
-    else {
-        let q = questions[n_asked - 1];
-        var h_txt = q[2];
-        if (h_txt === undefined) {
-            h_txt = generateHint(q[0], q[1]);
-        }
-        hint.innerHTML = h_txt
-            .replaceAll(/^1x|x1$|\/1$|x1x/g, "")
-            .replaceAll("/", "<small>÷</small>")
-            .replaceAll("x", "<small>×</small>");
-        hint.classList.remove("invisible");
-    }
-    //
     let num = document.getElementById('num');
     if (n_asked <= 0) {
         num.innerText = "";
@@ -190,6 +173,33 @@ function updateQuestions() {
     }
 }
 
+function updateHint() {
+    let hint = document.getElementById('h');
+    //
+    if (n_asked < 1 || n_asked > questions.length || n_solved >= questions.length) {
+        hint.innerHTML = "";
+    }
+    else {
+        let q = questions[n_asked - 1];
+        var h_txt = q[2];
+        if (h_txt === undefined) {
+            h_txt = generateHint(q[0], q[1]);
+        }
+        hint.innerHTML = h_txt
+            .replaceAll(/^1x|x1$|\/1$|x1x/g, "")
+            .replaceAll("/", "<small>÷</small>")
+            .replaceAll("x", "<small>×</small>");
+    }
+    //
+    hint.classList.remove("invisible");
+    hint.classList.remove("fadein");
+    hint.classList.add("invisible");
+    n_hint_timer = window.setInterval(function () {
+        hint.classList.remove("invisible");
+        hint.classList.add("fadein");
+    }, 2500);
+}
+
 function startSequence(orderedQuestions) {
     if (orderedQuestions !== undefined) {
         questions = orderedQuestions;
@@ -202,7 +212,13 @@ function startSequence(orderedQuestions) {
     setStatus("クリックするとはじまります（全" + questions.length + "問）");
 }
 
+var n_hint_timer = null;
+
 function nextSequence() {
+    if (n_hint_timer !== null) {
+        window.clearInterval(n_hint_timer);
+        n_hint_timer = null;
+    }
     if (questions.length == 0) {
         return;
     }
@@ -220,4 +236,5 @@ function nextSequence() {
         stopStopwatch();
     }
     updateQuestions();
+    updateHint();
 }
