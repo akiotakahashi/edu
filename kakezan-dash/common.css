@@ -1,0 +1,92 @@
+.invisible {
+    visibility: hidden;
+}
+
+.curr_question {
+    font-size: 1200%;
+    text-align: center;
+    font-weight: bold;
+    margin: 32px 0;
+    color: #282830;
+}
+
+.next_question {
+    font-size: 300%;
+    text-align: left;
+    color: lightgray;
+}
+
+.answer {
+    font-size: 240%;
+    text-align: right;
+    color: lightgray;
+}
+
+#a_ans {
+    display: inline-block;
+    color: gray;
+    font-weight: bold;
+}
+
+#status {
+    font-size: xx-large;
+    float: right;
+}
+
+#stopwatch {
+    float: right;
+    color: #777;
+    font-size: xx-large;
+}
+
+#stopwatch.fixed {
+    color: #333;
+    border-bottom: 2px solid black;
+}
+
+#stopwatch > span {
+    display: inline-block;
+}
+
+#minutes, #seconds {
+    min-width: 1.5em;
+    margin-right: 0.2em;
+    text-align: right;
+    text-decoration: inherit;
+}
+
+#num {
+    font-size: xx-large;
+    margin-right: 1.4em;
+    color: #333;
+    float: right;
+}
+
+h1 {
+    color: #777;
+    text-align: center;
+    font-size: x-large;
+    font-weight: normal;
+    border: solid #DDD 2px;
+    background-color: #F0F0F0;
+    margin-bottom: 1.4em;
+}
+
+#fullscreen {
+    width: 1.3rem;
+    height: 1.3rem;
+}
+
+body {
+    font-family: 'Kosugi Maru', sans-serif;
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+#safari_escape {
+    height: 76px;
+    border: dashed lightgray 1px;
+    border-radius: 16px;
+    color: lightgray;
+    text-align: center;
+}
