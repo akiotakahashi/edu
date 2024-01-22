@@ -197,7 +197,7 @@ function updateHint() {
     n_hint_timer = window.setInterval(function () {
         hint.classList.remove("invisible");
         hint.classList.add("fadein");
-    }, 2500);
+    }, 4000);
 }
 
 function startSequence(orderedQuestions) {
