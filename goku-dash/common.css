@@ -3,7 +3,7 @@
 }
 
 .curr_question {
-    font-size: 1000%;
+    font-size: 800%;
     text-align: center;
     font-weight: bold;
     margin: 32px 0;
@@ -37,11 +37,11 @@
     font-size: 250%;
     text-align: left;
     color: lightgray;
-    margin-bottom: 4em;
+    margin-bottom: 3em;
 }
 
 .answer {
-    font-size: 240%;
+    font-size: 200%;
     text-align: right;
     color: lightgray;
     margin-top: 4em;
