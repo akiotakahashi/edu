@@ -74,7 +74,9 @@ function updateQuestion(prefix, ix, predicate) {
         predicate = function (x) { return x; }
     }
     op1.innerText = predicate(q[0]);
-    div.classList.remove("invisible");
+    if (div.classList.contains("invisible")) {
+        div.classList.remove("invisible");
+    }
 }
 
 function updateQuestions() {
@@ -117,13 +119,7 @@ function startSequence(orderedQuestions) {
     setStatus("クリックするとはじまります（全" + questions.length + "問）");
 }
 
-var n_hint_timer = null;
-
 function nextSequence() {
-    if (n_hint_timer !== null) {
-        window.clearInterval(n_hint_timer);
-        n_hint_timer = null;
-    }
     if (questions.length == 0) {
         return;
     }
