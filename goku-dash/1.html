@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+    <head>
+        <title>ことわざ・慣用句 - 語句ダッシュ</title>
+        <meta charset="utf-8">
+        <script type="text/javascript" src="calc.js"></script>
+        <script type="text/javascript" src="util.js"></script>
+        <link rel="stylesheet" href="common.css" type="text/css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Kosugi+Maru&display=swap" rel="stylesheet">
+    </head>
+    <script lang="javascript">
+        function generateQuestions() {
+            let kanji = [
+                [ "医者の不養生", "理解していても実行しないこと。" ],
+                [ "うどの大木", "大きいだけで役に立たない。" ],
+            ];
+            let q = [];
+            for (let ix = 0; ix < 20; ix++) {
+                q.push(randomChoice(kanji));
+            }
+            return q;
+        }
+    </script>
+    <style>
+    </style>
+    <body onload="init(generateQuestions())" onmousedown="onMouseDown(event)">
+        <div id="safari_escape" hidden>
+            <span>Safari 用の空白</span>
+        </div>
+        <h1 id="h1" onmousedown="event.stopPropagation()">
+            <span style="margin: 0.4em; display: inline-block;">ことわざ・慣用句 - 語句ダッシュ</span>
+            <button style="font-size: large; float: left; margin: 0.25em;" onclick="startSequence(); event.stopPropagation();">
+                最初から
+            </button>
+            <div style="font-size: large; float: right; margin: 0.4em;">
+                <input id="fullscreen" type="checkbox" style="vertical-align: middle;" onchange="onFullScreenChanged()"><span style="vertical-align: middle;">全画面</span>
+            </div>
+        </h1>
+        <div style="padding: 0.5em 1em; margin-top: 1em;">
+            <div>
+                <span id="stopwatch" style="float: right;">
+                    <span id="minutes">1</span>分<span id="seconds">45</span>秒
+                </span>
+                <span id="status" style="float: right;">
+                    ステータス
+                </span>
+                <span id="num"></span>
+            </div>
+            <div style="padding: 4vw 4vw 3vw 4vw; padding-top: 0; user-select: none;">
+                <div id="n" class="next_question">
+                    次:<span id="n_op" style="font-size: 120%;">x</span>
+                </div>
+                <div id="c" class="curr_question">
+                    <span id="c_op">x</span>
+                </div>
+                <div id="a" class="answer">
+                    答:<span id="a_op" style="font-size: 100%;"
+                    >0</span><span style="margin: 0 0.12em 0 0.3em;"
+                    >⇒</span><span id="a_ans" style="font-size: 100%; min-width: 1.2em;"
+                    >0</span>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
