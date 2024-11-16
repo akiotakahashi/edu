@@ -42,7 +42,8 @@
 
 .answer {
     font-size: 200%;
-    text-align: right;
+    text-align: left;
+    line-height: 1.5em;
     color: lightgray;
     margin-top: 4em;
 }
