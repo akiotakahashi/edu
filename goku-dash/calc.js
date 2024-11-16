@@ -73,7 +73,7 @@ function updateQuestion(prefix, ix, predicate) {
     if (predicate === undefined) {
         predicate = function (x) { return x; }
     }
-    op1.innerText = predicate(q[0]);
+    op1.innerHTML = predicate(q[0]);
     if (div.classList.contains("invisible")) {
         div.classList.remove("invisible");
     }
@@ -103,7 +103,7 @@ function updateQuestions() {
     if (n_solved > 0) {
         let ans = document.getElementById("a_ans");
         let q = questions[n_solved - 1];
-        ans.innerText = q[1];
+        ans.innerHTML = q[1];
     }
 }
 
