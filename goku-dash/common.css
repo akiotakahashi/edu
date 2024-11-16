@@ -3,34 +3,11 @@
 }
 
 .curr_question {
-    font-size: 800%;
+    font-size: 600%;
     text-align: center;
     font-weight: bold;
     margin: 32px 0;
     color: #282830;
-}
-
-.question_hint {
-    font-size: 500%;
-    text-align: center;
-    font-weight: normal;
-    margin: 32px 0;
-    margin-top: 0.75em;
-    color: #888;
-}
-
-.fadein {
-    animation: fadein 1.5s ease-out forwards;
-}
-
-@keyframes fadein {
-    0% {opacity: 0}
-    100% {opacity: 1}
-}
-
-.question_hint > small {
-    font-size: 75%;
-    color: #AAA;
 }
 
 .next_question {
