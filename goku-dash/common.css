@@ -22,13 +22,13 @@
     text-align: left;
     line-height: 1.5em;
     color: lightgray;
-    margin-top: 4em;
+    margin-top: 5em;
 }
 
 #a_ans {
     display: inline-block;
     color: gray;
-    font-weight: bold;
+    font-weight: normal;
 }
 
 #status {
